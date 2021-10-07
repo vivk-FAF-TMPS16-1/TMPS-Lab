@@ -20,7 +20,9 @@ The most known creational patterns include:
 
 ## Implemetation
 ****
-4 creational designs were made(Factory, Abstract Factory, Singleton, Builder), with objects of type **Cookware**:Pan, Pot and Casserole. All of them have 3 attributes(price, name and material type) and toString method to output all attributes.
+4 creational designs were made(Factory, Abstract Factory, Singleton, Builder), 
+with objects of type **Cookware**:Pan, Pot and Casserole. All of them have 
+3 attributes(price, name and material type) and Info property to output all attributes.
 **Singleton** is implemented in **SteelCookwareFactory**, **IronCookwareFactory**, **GlassCookwareFacotory**. All instances of these classes are **private static** and their constructors are private as well, so they could only be instantiated by get() methods.
 ```csharp
 private GlassCookwareFactory() { }
@@ -42,3 +44,7 @@ For the **builder**, there are two stages to create the objects. First, the fact
 Factory methods are in builder package. There are multiple classes to implement the ICookwareBuilder, which are chosen based on input parameter.
 
 There are multiple factories for each material type. These factories implement IBaseFactory interface
+
+## Result
+
+![Result](./Resources/result.png)
