@@ -67,6 +67,29 @@ namespace CreationalDesignPatterns
             Console.WriteLine(customPan.Info);
             Console.WriteLine(customPot.Info);
             Console.WriteLine(customCasserole.Info);
+            Console.WriteLine();
+            
+            kitchen.AddCookware(steamStoveAdapter);
+            kitchen.AddCookware(electroStoveAdapter);
+            kitchen.AddCookware(gasStoveAdapter);
+            
+            kitchen.AddCookware(glassFactory.Create("pan"));
+            kitchen.AddCookware(glassFactory.Create("pot"));
+            kitchen.AddCookware(glassFactory.Create("casserole"));
+            kitchen.AddCookware(customCookware.GetCustomCookware("pot", 99f, MaterialType.Steel));
+            
+            Console.WriteLine("kitchen contains: ");
+            var iterator = kitchen.Iterator();
+            iterator.Reset();
+            
+            while (iterator.MoveNext())
+            {
+                var cookware = iterator.Current;
+                if (cookware == null)
+                    continue;
+                
+                Console.WriteLine(cookware.Info);
+            }
         }
     }
 }

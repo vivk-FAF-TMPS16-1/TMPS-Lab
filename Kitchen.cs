@@ -1,13 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using CreationalDesignPatterns.Cookware;
+using CreationalDesignPatterns.Iterator;
 
 namespace CreationalDesignPatterns
 {
-    public class Kitchen
+    public class Kitchen : IIteratorCollection
     {
         private static Kitchen _instance;
-        
-        private Kitchen() { }
+
+        private List<ICookware> _cookwares;
+
+        private Kitchen()
+        {
+            _cookwares = new List<ICookware>();
+        }
 
         public static Kitchen Instance
         {
@@ -27,5 +34,24 @@ namespace CreationalDesignPatterns
                 Console.WriteLine(cookware.Info);
             }
         }
+
+        public void AddCookware(ICookware cookware)
+        {
+            _cookwares.Add(cookware);
+        }
+
+        public List<ICookware> GetCookwares()
+        {
+            return _cookwares;
+        }
+        
+        #region IIteratorCollection implementation
+
+        public IIterator<ICookware> Iterator()
+        {
+            return new CookwareIterator(_cookwares);
+        }
+
+        #endregion
     }
 }

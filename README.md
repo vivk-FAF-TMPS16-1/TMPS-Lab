@@ -1,91 +1,71 @@
-# TMPS Laboratory work nr. 2
+# TMPS Laboratory work nr. 3
 
 ## Author: `Volcov Oleg`
-## Topic: `Structural Design Patterns`
+## Topic: `Behavioral Design Patterns`
 
+## Last Iterations
+****
+**[Laboratory Work #1 [Creational]](./Resources/ReadMe/Creational.md)**
+
+**[Laboratory Work #2 [Structural]](./Resources/ReadMe/Structural.md)**
+****
 ## Objectives
 ****
-1. Study about **Structural Design Patterns**
-2. Expand previous lab and include at least 3 structural design patterns
+1. Study about **Behavioral Design Patterns**
+2. Expand previous lab and implement as many additional functionalities based on BDP as possible
 ## Theory
 ****
-In software engineering, **Design patterns** are typical solutions to common 
-problems in software design. Each pattern is like a blueprint that can be customized 
-to solve a particular design problem.They define a common language that helps 
-developer teams communicate more efficiently.
+In software engineering, **Behavioral patterns** are concerned with the assignment of responsibilities 
+between objects, or, encapsulating behavior in an object and delegating requests to it.
 
-**Design patterns** are concerned with how classes and objects are composed to 
-form larger structures. Structural class patterns use inheritance to create a hierarchy 
-of classes/abstractions, but the structural object patterns use composition which is 
-generally a more flexible alternative to inheritance.
+By doing so, these patterns increase flexibility in carrying out communication.
 
 The most known design patterns include:
-* **Adapter**
-* **Bridge**
-* **Composite**
-* **Decorator**
-* **Facade**
-* **Lightweight**
-* **Proxy**
+* **Chain of Responsibility**
+* **Command**
+* **Interpreter**
+* **Iterator**
+* **Mediator**
+* **Observer**
+* **Strategy**
 
 ## Implemetation
 ****
-In this laboratory work from **Structural design patterns** were implemented 
-[***Decorator**, **Adapter**, **Facade***], with the objects of type Cookware 
-[*Pan, Pot, Casserole*] and object of type Stove [*Electro-stove, Gas-stove, Steam-stove*]. 
-Cookware received a new attribute(4 in total), getters and setters properties, 
-and *Info* property used for output, while Stove has same methods, and 3 attributes.
+Previous lab was expanded by **Iterator** behaviour pattern.
 
-For the **Adapter**, **StoveAdapter** class was implemented using composition
+**Iterator** is a design pattern in which an iterator is used to traverse a container and access 
+the container's elements. The iterator pattern decouples algorithms from containers, which, 
+in some cases, are necessarily container-specific and thus cannot be decoupled.
+
+Implementation can be found in the interfaces **IIterator**:
 ```csharp
-public class StoveAdapter : AdapterUtility
+public interface IIterator<out T>
 {
-    private IStove _stove;
-
-    public StoveAdapter(IStove stove)
-    {
-        _stove = stove;
-    }
-
-    public override string Info => _stove.Info;
+    bool MoveNext();
+    void Reset();
+    
+    T Current { get; }
 }
 ```
 
-To test the results, a new class was made - **Kitchen** with 
-the method **Present()** which now can get parameters 
-of both Cookware and Stove types, afterwards printing them on screen
+**IIteratorCollection** and **CookwareIterator** class, 
+which would allow me to add new objects to the **Kitchen**.
+
+For printing kitchen components, some instructions from **Main** class is used, which uses this iterator:
 ```csharp
-public void Present(ICookware[] cookwares)
+var iterator = kitchen.Iterator();
+iterator.Reset();
+
+while (iterator.MoveNext())
 {
-    Console.WriteLine("Kitchen contains following cookware");
-    foreach (var cookware in cookwares)
-    {
-        Console.WriteLine(cookware.Info);
-    }
+    var cookware = iterator.Current;
+    if (cookware == null)
+        continue;
+    
+    Console.WriteLine(cookware.Info);
 }
 ```
 
-**Facade** allows programmers to hide complex processes of creating 
-and customizing objects. For this, I have created **Custom Cookware** 
-class, which allow to change the volume and material type used 
-when creating the objects.
-```csharp
-public ICookware GetCustomCookware(string type, float volume, MaterialType materialType)
-{
-    BaseCookwareFactoryDecorator cutomizer = new CustomVolume(volume, _baseFactory);
-    var customCookware = cutomizer.CreateCookware(type);
-    customCookware.MaterialType = materialType;
-    return customCookware;
-}
-```
-
-**Decorator** allows us to attach new behaviors by placing 
-them in so called wrappers that contains these behaviors. 
-For the scope of this lab work, **BaseCookwareFactoryDecorator** 
-class was implemented. With its help, the Cookware class was 
-expanded with a new attribute - volume, and a new method inside 
-**CustomVolume** which can be used to make custom cookware objects. 
-By default all of object have a volume of 2 liters.
 ## Result
 
-![Result](./Resources/result.png)
+![Result](./Resources/ResultBehavioral.png)
